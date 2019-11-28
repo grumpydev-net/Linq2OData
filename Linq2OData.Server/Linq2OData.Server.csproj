@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOsPlatform('Windows'))">$(TargetFrameworks);net461</TargetFrameworks>
+
+    <Authors>Tocsoft</Authors>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Description>Extension methods over IQueryable that can generate expressions a filter based on odata query syntax. 
+
+</Description>
+    <PackageProjectUrl>https://github.com/tocsoft/Linq2OData/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tocsoft/Linq2OData/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>odata linq</PackageTags>
+    <PackageLicenseFile>LICENCE.md</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENCE.md">
+      <Visible>False</Visible>
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="GitVersionTask" Version="5.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="ErrorPackOnLinux" BeforeTargets="Pack" Condition="!$([MSBuild]::IsOsPlatform('Windows'))">
+    <Error Text="Can only create a full package on windows as we need to generate full framework assets" />
+  </Target>
+</Project>
